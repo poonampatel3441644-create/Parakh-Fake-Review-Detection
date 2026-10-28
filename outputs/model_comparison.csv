@@ -1,0 +1,4 @@
+Model,Accuracy
+A - Raw Text,0.9332013854527461
+B - Cleaned Text,0.9332013854527461
+C - Formatting Only,0.776843146956952
