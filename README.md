@@ -1,32 +1,36 @@
-## Baseline Model Evaluation
+## Model Evaluation
 
-Three baseline approaches were evaluated for fake-review detection.
+Models were evaluated on the same held-out test set of 8,084 reviews.
 
 | Model | Accuracy |
 |---|---:|
-| Model A — Raw Text | 93.32% |
-| Model B — Cleaned Text | 93.32% |
-| Model C — Formatting Only | 77.68% |
+| A — Raw Text (TF-IDF baseline) | 93.32% |
+| B — Cleaned Text | 93.32% |
+| C — Formatting Features Only | 77.68% |
+| D — Trailing Fragment Removed | 90.12% |
+| Random Forest — Transformed Text | 87.69% |
 
-### Error Analysis
+### Cross-Validation
 
-Model A was evaluated on 8,084 test reviews and achieved **93.32% accuracy**, with 540 incorrect predictions (6.68% error rate).
+Model A was evaluated using 5-fold stratified cross-validation on the training data.
 
-The errors were distributed as follows:
+- Mean accuracy: 92.64%
+- Standard deviation: 0.28 percentage points
 
-- **CG predicted as OR:** 324 reviews.
-- **OR predicted as CG:** 216 reviews.
+The relatively small variation across folds suggests consistent performance across the evaluated splits.
 
-Models A and B produced identical predictions on the test set, although the cleaning process modified 18,564 training reviews (57.41%). This indicates that the current cleaning process did not change Model B's predictions compared with Model A on this test set.
+### Truncation Experiment
+
+Removing trailing text fragments reduced test accuracy from 93.32% to 90.12%. This suggests that the text transformation affects predictive performance, but it does not establish how much of the original performance came from truncation artifacts.
+
+The transformation may remove legitimate text and leaves reviews without sentence-ending punctuation unchanged. Therefore, Model D is an exploratory stress test rather than a definitive estimate of real-world performance.
+
+### Random Forest
+
+The Random Forest model achieved 87.69% accuracy using TF-IDF features from the transformed reviews. It performed below the baseline models in this experiment.
+
+Its feature-importance analysis ranked several common words and phrases highly. These rankings show which features contributed to tree impurity reductions, but do not establish causal relationships or prove that individual words identify fake reviews.
 
 ### Conclusion
 
-The baseline experiments provide a starting point for further model development. Distinguishing computer-generated reviews from original reviews remains an area for improvement. Further experiments are needed to investigate misclassified reviews and evaluate possible improvements.
-
-### Cleaning Analysis
-
-The cleaning function normalizes whitespace, replaces line breaks with spaces, and inserts missing spaces after punctuation. It changed 18,564 training reviews (57.41%) and 4,721 test reviews (58.40%).
-
-Despite these text changes, Model A (raw text) and Model B (cleaned text) achieved the same test accuracy of 93.32%. Their predictions were identical, and the TF-IDF feature matrices showed no differences on the test set.
-
-This suggests that the current formatting-focused preprocessing did not change the features used by the baseline model on this test set. Further experiments are needed to determine whether alternative preprocessing methods improve classification performance.
+The TF-IDF baseline achieved the highest test accuracy among the models evaluated so far. Further testing on independent data is needed to assess generalization and determine whether the detected patterns reflect genuine review characteristics or dataset-specific artifacts.
