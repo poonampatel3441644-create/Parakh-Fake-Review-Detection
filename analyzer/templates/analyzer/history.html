@@ -1,0 +1,266 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History | Parakh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brown: #533638;
+            --pink: #F7B9C4;
+            --background: #F5EDEC;
+            --ink: #332426;
+            --muted: #8A7778;
+            --line: #EBD7D9;
+            --green: #238653;
+            --red: #D94A27;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 35px 18px;
+            background: var(--brown);
+            color: var(--ink);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .wrap {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .header {
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #F5DDE0;
+            line-height: 1.6;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--pink);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,.12);
+        }
+
+        .card-header {
+            background: var(--pink);
+            padding: 19px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .count {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--brown);
+        }
+
+        .content { padding: 25px; }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .preview {
+            max-width: 340px;
+            line-height: 1.6;
+            color: var(--ink);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .genuine { background: #DDF3E6; color: #167341; }
+        .machine { background: #FCE1D9; color: #B83E1D; }
+        .unclear { background: #E9EAED; color: #626873; }
+
+        .sentiment {
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 55px 15px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .empty strong {
+            display: block;
+            color: var(--brown);
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 22px;
+        }
+
+        button {
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            background: var(--brown);
+            color: white;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover { opacity: .9; }
+
+        @media (max-width: 600px) {
+            body { padding: 22px 12px; }
+            .header h1 { font-size: 25px; }
+            .content { padding: 15px; }
+            .card-header { padding: 17px; }
+        }
+        .navlink {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--pink);
+    font-weight: 700;
+    text-decoration: underline;
+}
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+
+    <header class="header">
+        <h1>Parakh परख</h1>
+        <p>Your previous review analyses, all in one place.</p>
+       
+        <a class="back" href="{% url 'analyze_review' %}">← Back to analyzer</a>
+    </header>
+
+    <section class="card">
+        <div class="card-header">
+            <h2>Analysis History</h2>
+            <span class="count">{{ items|length }} recent analyses</span>
+        </div>
+
+        <div class="content">
+
+            {% if items %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Review</th>
+                                <th>Verdict</th>
+                                <th>Genuine</th>
+                                <th>Sentiment</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ item.created_at|date:"d M Y, h:i A" }}</td>
+
+                                <td>
+                                    <div class="preview">
+                                        {{ item.preview }}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="badge {{ item.verdict }}">
+                                        {{ item.verdict_label }}
+                                    </span>
+                                </td>
+
+                                <td>{{ item.genuine_pct }}%</td>
+
+                                <td class="sentiment">
+                                    {{ item.sentiment }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="actions">
+                    <form method="POST" action="{% url 'clear_history' %}"
+                          onsubmit="return confirm('Are you sure you want to delete your entire analysis history?');">
+                        {% csrf_token %}
+                        <button type="submit">Clear history</button>
+                    </form>
+                </div>
+
+            {% else %}
+                <div class="empty">
+                    <strong>No analyses yet</strong>
+                    Your completed analyses will appear here.<br>
+                    Go back to the analyzer and try your first review.
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

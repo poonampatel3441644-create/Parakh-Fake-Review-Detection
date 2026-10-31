@@ -108,3 +108,19 @@ Logistic Regression on raw text achieved the highest test accuracy among these r
 Day 4 introduced neural-network-based fake-review classification using an MLP. Different optimizers and regularization techniques were evaluated to understand their effect on model performance. SGD with momentum and Adam with dropout produced the strongest MLP results in these experiments. Longer training substantially improved the L1-regularized model and slightly improved the L2-regularized model.
 
 Further work should include plotting training and validation loss, checking for overfitting, and evaluating the selected model on an independent dataset before drawing conclusions about real-world performance.
+
+staticfiles/
+.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+.env.*
+!.env.example
+data/
+outputs/feature_analysis.csv
+db.sqlite3
+*.py[cod]
+staticfiles/
+
+staticfiles/

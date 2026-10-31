@@ -1,0 +1,1 @@
+web: gunicorn parakh_site.wsgi:application
