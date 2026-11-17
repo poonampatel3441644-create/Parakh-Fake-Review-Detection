@@ -124,3 +124,9 @@ db.sqlite3
 staticfiles/
 
 staticfiles/
+
+## 🌐 Live Demo
+
+Try Parakh here:
+
+**[Open Parakh – Fake Review Detection](https://parakh-fake-review-detection.onrender.com)**
