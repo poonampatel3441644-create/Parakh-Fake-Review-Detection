@@ -130,3 +130,12 @@ staticfiles/
 Try Parakh here:
 
 **[Open Parakh – Fake Review Detection](https://parakh-fake-review-detection.onrender.com)**
+
+
+## 📸 Screenshots
+
+### Homepage
+![Parakh Homepage](docs/homepage.png)
+
+### Review Analysis Result
+![Parakh Review Analysis](docs/analysis-result.png)
