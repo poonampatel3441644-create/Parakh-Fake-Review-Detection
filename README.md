@@ -109,28 +109,27 @@ Day 4 introduced neural-network-based fake-review classification using an MLP. D
 
 Further work should include plotting training and validation loss, checking for overfitting, and evaluating the selected model on an independent dataset before drawing conclusions about real-world performance.
 
-staticfiles/
-.venv/
-venv/
-__pycache__/
-.ipynb_checkpoints/
-.env
-.env.*
-!.env.example
-data/
-outputs/feature_analysis.csv
-db.sqlite3
-*.py[cod]
-staticfiles/
 
-staticfiles/
+## Final Model Performance
+
+The final deployed authenticity classification model achieved **90.31% accuracy**.
+
+This result is separate from the earlier TF-IDF baseline experiments, where Model A achieved 93.32%. These figures represent different model experiments and should not be confused.
+
+## Limitations
+
+- The model may produce false positives and false negatives. Predictions are estimates, not proof of authorship.
+- Performance depends on the dataset used for training and evaluation.
+- Reviews from different products, platforms, domains, or languages may have different writing patterns.
+- Short, generic, or formulaic reviews may be difficult to classify reliably.
+- Sentiment analysis identifies expressed sentiment; it does not determine review authenticity.
+
 
 ## 🌐 Live Demo
 
 Try Parakh here:
 
-**[Open Parakh – Fake Review Detection](https://parakh-fake-review-detection.onrender.com)**
-
+[Open Parakh – Fake Review Detection](https://parakh-fake-review-detection.onrender.com)
 
 ## 📸 Screenshots
 
